@@ -7,7 +7,7 @@ function Sms() {
 	const [isCodeSent, setIsCodeSent] = useState(false);
 	const [isVerified, setIsVerified] = useState(false);
 	const [phoneNumber, setPhoneNumber] = useState('');
-	function handleSend(phoneNumber: string) {
+	function handleSend(phoneNumber) {
 		setIsCodeSent(true);
 		setPhoneNumber(phoneNumber);
 	}

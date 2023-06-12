@@ -1,4 +1,4 @@
 function Fingerprint() {
-	return <form ></form>;
+	return <form></form>;
 }
 export default Fingerprint;

@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-function PhoneForm({ onSend }: { onSend: (phoneNumber: string) => void }) {
+function PhoneForm({ onSend }) {
 	const [errMsg, setErrMsg] = useState('');
-	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+	async function handleSubmit(e) {
 		e.preventDefault();
 		const form = new FormData(e.currentTarget);
 		const payload = Object.fromEntries(form);
-		console.log(JSON.stringify(payload));
 		try {
 			const response = await fetch(
-				'http://localhost:3000/send-verification-code',
+				'https://localhost:3000/send-verification-code',
 				{
 					method: 'POST',
 					headers: {
@@ -19,7 +18,7 @@ function PhoneForm({ onSend }: { onSend: (phoneNumber: string) => void }) {
 				}
 			);
 			if (response.status !== 200) throw new Error('Error');
-			onSend(payload.phoneNumber as string);
+			onSend(payload.phoneNumber);
 		} catch (error) {
 			if (error instanceof Error) setErrMsg(error.message);
 			else setErrMsg(String(error));

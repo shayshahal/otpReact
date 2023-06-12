@@ -1,20 +1,35 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-function CodeForm({
-	onVerify,
-	phoneNumber,
-}: {
-	onVerify: (value: boolean) => void;
-	phoneNumber: string;
-}) {
+function CodeForm({ onVerify, phoneNumber }) {
+	const [code, setCode] = useState('');
+	const [ac, setAc] = useState(null);
+	useEffect(() => {
+		if ('OTPCredential' in window) {
+			window.addEventListener('DOMContentLoaded', () => {
+				setAc(new AbortController());
+
+				navigator.credentials
+					.get({
+						otp: { transport: ['sms'] },
+						signal: ac.signal,
+					})
+					.then((otp) => {
+						setCode(otp.code);
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+			});
+		}
+	});
 	const [errMsg, setErrMsg] = useState('');
-	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+	async function handleSubmit(e) {
 		e.preventDefault();
 		const form = new FormData(e.currentTarget);
 		const payload = Object.fromEntries(form);
 
 		try {
-			const response = await fetch('http://localhost:3000/verify-code', {
+			const response = await fetch('https://localhost:3000/verify-code', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -28,6 +43,7 @@ function CodeForm({
 			else setErrMsg(String(error));
 			console.error(error);
 		}
+		ac.abort();
 	}
 	return (
 		<form onSubmit={handleSubmit}>
@@ -35,9 +51,14 @@ function CodeForm({
 				<input
 					type='number'
 					name='verificationCode'
-                    required
+					inputMode='numeric'
+					required
+					pattern='[0-9]*'
 					autoComplete='one-time-code'
 					id='verificationCode'
+					value={code}
+					is='one-time-code'
+					onChange={(e) => setCode(e.currentTarget.value)}
 				/>
 				<span>{errMsg}</span>
 			</label>

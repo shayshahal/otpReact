@@ -2,6 +2,8 @@ import cors from 'cors';
 import { config } from 'dotenv';
 import express from 'express';
 import asyncHandler from 'express-async-handler';
+import fs from 'fs';
+import https from 'https';
 import Twilio from 'twilio';
 config();
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -51,6 +53,14 @@ app.post(
 	})
 );
 
-app.listen(PORT, () => {
-	console.log('listening on port ' + PORT);
-});
+https
+	.createServer(
+		{
+			key: fs.readFileSync('key.pem'),
+			cert: fs.readFileSync('cert.pem'),
+		},
+		app
+	)
+	.listen(PORT, () => {
+		console.log('listening on port ' + PORT);
+	});

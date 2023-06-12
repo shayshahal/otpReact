@@ -1,8 +1,4 @@
-function Nav({
-	setAppState,
-}: {
-	setAppState: (v: 'sms' | 'fingerprint') => void;
-}) {
+function Nav({ setAppState }) {
 	return (
 		<nav>
 			<ul>

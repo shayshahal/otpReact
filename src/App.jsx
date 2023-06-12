@@ -4,7 +4,7 @@ import Fingerprint from './Fingerprint';
 import Nav from './Nav';
 import Sms from './Sms';
 function App() {
-	const [appState, setAppState] = useState<'sms' | 'fingerprint'>('sms');
+	const [appState, setAppState] = useState('sms');
 	return (
 		<>
 			<Nav setAppState={setAppState} />
