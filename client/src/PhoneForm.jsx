@@ -28,7 +28,7 @@ function PhoneForm({ onSend }) {
 	return (
 		<form onSubmit={handleSubmit}>
 			<label htmlFor='phoneNumber'>
-				phone number: 
+				phone number -  
 				<input
 					type='tel'
 					name='phoneNumber'

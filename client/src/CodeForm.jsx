@@ -1,25 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function CodeForm({ onVerify, phoneNumber }) {
 	const [otp, setOtp] = useState('asd');
-	if ('OTPCredential' in window) {
-		const ac = new AbortController();
-		navigator.credentials
-			.get({
-				otp: { transport: ['sms'] },
-				signal: ac.signal,
-			})
-			.then((otp) => {
-				setOtp(otp.code);
-				ac.abort();
-			})
-			.catch((err) => {
-				console.log(err);
-				setOtp('aspkdjakplosdjmelasdlkasmd');
-				ac.abort();
-			});
-	}
 	const [errMsg, setErrMsg] = useState('');
+	
+	useEffect(() =>{
+		if ('OTPCredential' in window) {
+			const ac = new AbortController();
+			navigator.credentials
+				.get({
+					otp: { transport: ['sms'] },
+					signal: ac.signal,
+				})
+				.then((otp) => {
+					setOtp(otp.code);
+					ac.abort();
+				})
+				.catch((err) => {
+					console.log(err);
+					setOtp('aspkdjakplosdjmelasdlkasmd');
+					ac.abort();
+				});
+		}
+	})
 	async function handleSubmit(e) {
 		e.preventDefault();
 		const form = new FormData(e.currentTarget);
