@@ -8,7 +8,7 @@ dotenv.config();
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const serviceSid = process.env.TWILIO_SERVICE_SID;
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 const client = new Twilio(accountSid, authToken);
 
 const app = express();
