@@ -7,25 +7,22 @@ function CodeForm({ onVerify, phoneNumber }) {
 		console.log(window);
 		console.log('OTPCredential' in window);
 		if ('OTPCredential' in window) {
-			window.addEventListener('DOMContentLoaded', () => {
-				setTemp('JHKSAHMJFNALKSJDMALSDKASD');
-				const ac = new AbortController();
-				setTimeout(() => {
-					// abort after 2 minutes
-					ac.abort();
-				}, 2 * 60 * 1000);
-				navigator.credentials
-					.get({
-						otp: { transport: ['sms'] },
-						signal: ac.signal,
-					})
-					.then((otp) => {
-						setCode(otp.code);
-					})
-					.catch((err) => {
-						console.log(err);
-					});
-			});
+			const ac = new AbortController();
+			setTimeout(() => {
+				// abort after 2 minutes
+				ac.abort();
+			}, 2 * 60 * 1000);
+			navigator.credentials
+				.get({
+					otp: { transport: ['sms'] },
+					signal: ac.signal,
+				})
+				.then((otp) => {
+					setCode(otp.code);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 		}
 	});
 	const [errMsg, setErrMsg] = useState('');
