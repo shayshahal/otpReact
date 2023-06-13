@@ -3,14 +3,12 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const asyncHandler = require('express-async-handler');
 const Twilio = require('twilio');
-const https = require('https');
-const fs = require('fs');
 
 dotenv.config();
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const serviceSid = process.env.TWILIO_SERVICE_SID;
-
+const port = process.env.PORT || 3000;
 const client = new Twilio(accountSid, authToken);
 
 const app = express();
@@ -59,12 +57,6 @@ app.get('/', function (req, res) {
 	res.send('lol');
 });
 
-https
-	.createServer(
-		{
-			key: fs.readFileSync('key.pem'),
-			cert: fs.readFileSync('cert.pem'),
-		},
-		app
-	)
-	.listen(process.env.PORT || 3000);
+app.listen(port, () => {
+	console.log('Listening on port ' + port);
+});
