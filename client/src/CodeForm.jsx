@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 function CodeForm({ onVerify, phoneNumber }) {
 	const [code, setCode] = useState('');
 	const formRef = useRef(null);
-	useEffect(() => {
+	const func = () => {
 		if ('OTPCredential' in window) {
 			const ac = new AbortController();
 			setTimeout(() => {
@@ -25,7 +25,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 					ac.abort();
 				});
 		}
-	});
+	};
 	const [errMsg, setErrMsg] = useState('');
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -71,7 +71,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 				name='phoneNumber'
 				value={phoneNumber}
 			/>
-			<span>{code}</span>
+			<button onClick={func}>CLICK</button>
 			<button>Verify</button>
 		</form>
 	);
