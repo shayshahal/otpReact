@@ -2,26 +2,30 @@ import { useEffect, useState } from 'react';
 
 function CodeForm({ onVerify, phoneNumber }) {
 	const [code, setCode] = useState('');
+	const [temp, setTemp] = useState('');
 	useEffect(() => {
 		console.log(window);
 		console.log('OTPCredential' in window);
 		if ('OTPCredential' in window) {
-			setAc(new AbortController());
-			setTimeout(() => {
-				// abort after 2 minutes
-				ac.abort();
-			}, 2 * 60 * 1000);
-			navigator.credentials
-				.get({
-					otp: { transport: ['sms'] },
-					signal: ac.signal,
-				})
-				.then((otp) => {
-					setCode(otp.code);
-				})
-				.catch((err) => {
-					console.log(err);
-				});
+			window.addEventListener('DOMContentLoaded', () => {
+				setTemp('JHKSAHMJFNALKSJDMALSDKASD');
+				setAc(new AbortController());
+				setTimeout(() => {
+					// abort after 2 minutes
+					ac.abort();
+				}, 2 * 60 * 1000);
+				navigator.credentials
+					.get({
+						otp: { transport: ['sms'] },
+						signal: ac.signal,
+					})
+					.then((otp) => {
+						setCode(otp.code);
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+			});
 		}
 	});
 	const [errMsg, setErrMsg] = useState('');
@@ -68,6 +72,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 				name='phoneNumber'
 				value={phoneNumber}
 			/>
+			<span>{temp}</span>
 			<button>Verify</button>
 		</form>
 	);
