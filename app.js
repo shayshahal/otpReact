@@ -1,10 +1,10 @@
 const express = require('express');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const asyncHandler = require('express-async-handler');
 const Twilio = require('twilio');
+const https = require('https');
+const fs = require('fs');
 
 dotenv.config();
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -15,10 +15,8 @@ const client = new Twilio(accountSid, authToken);
 
 const app = express();
 
-app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(cors());
 
 app.use((req, res, next) => {
@@ -61,4 +59,12 @@ app.get('/', function (req, res) {
 	res.send('lol');
 });
 
-module.exports = app;
+https
+	.createServer(
+		{
+			key: fs.readFileSync('key.pem'),
+			cert: fs.readFileSync('cert.pem'),
+		},
+		app
+	)
+	.listen(3000);
