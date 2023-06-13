@@ -1,16 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function CodeForm({ onVerify, phoneNumber }) {
 	const [code, setCode] = useState('');
-	const [ac, setAc] = useState(null);
-	const formRef = useRef(null);
 	useEffect(() => {
 		console.log(window);
 		console.log('OTPCredential' in window);
 		if ('OTPCredential' in window) {
 			window.addEventListener('DOMContentLoaded', () => {
 				setAc(new AbortController());
-
+				setTimeout(() => {
+					// abort after 2 minutes
+					ac.abort();
+				}, 2 * 60 * 1000);
 				navigator.credentials
 					.get({
 						otp: { transport: ['sms'] },
@@ -47,13 +48,9 @@ function CodeForm({ onVerify, phoneNumber }) {
 			else setErrMsg(String(error));
 			console.error(error);
 		}
-		ac?.abort();
 	}
 	return (
-		<form
-			onSubmit={handleSubmit}
-			ref={formRef}
-		>
+		<form onSubmit={handleSubmit}>
 			<label htmlFor='verificationCode'>
 				<input
 					type='number'
