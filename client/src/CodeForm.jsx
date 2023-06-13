@@ -7,7 +7,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 		if ('OTPCredential' in window) {
 			const ac = new AbortController();
 			setTimeout(() => {
-				// abort after 10 minutes
+				//abort after 10 minutes
 				ac.abort();
 			}, 10 * 60 * 1000);
 			navigator.credentials
