@@ -66,6 +66,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 				name='phoneNumber'
 				value={phoneNumber}
 			/>
+			<span>{code}</span>
 			<button>Verify</button>
 		</form>
 	);
