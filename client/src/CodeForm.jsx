@@ -58,7 +58,6 @@ function CodeForm({ onVerify, phoneNumber }) {
 					name='verificationCode'
 					inputMode='numeric'
 					required
-					pattern='[0-9]*'
 					autoComplete='one-time-code'
 					id='verificationCode'
 					value={code}
