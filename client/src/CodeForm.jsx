@@ -54,7 +54,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 		<form onSubmit={handleSubmit}>
 			<label htmlFor='verificationCode'>
 				<input
-					type='number'
+					type='text'
 					name='verificationCode'
 					inputMode='numeric'
 					required
