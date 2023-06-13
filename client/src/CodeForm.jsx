@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
 function CodeForm({ onVerify, phoneNumber }) {
-	const [code, setCode] = useState('');
-	const formRef = useRef(null)
+	const [otp, setOtp] = useState('');
+	const formRef = useRef(null);
 	useEffect(() => {
 		if ('OTPCredential' in window) {
 			const ac = new AbortController();
@@ -16,9 +16,11 @@ function CodeForm({ onVerify, phoneNumber }) {
 					signal: ac.signal,
 				})
 				.then((otp) => {
-					setCode(otp.code);
+					setOtp(otp.code);
 					ac.abort();
-					formRef.current.dispatchEvent(new Event("submit"));
+					formRef.current.dispatchEvent(
+						new Event('submit', { cancelable: true, bubbles: true })
+					);
 				})
 				.catch((err) => {
 					console.log(err);
@@ -49,7 +51,10 @@ function CodeForm({ onVerify, phoneNumber }) {
 		}
 	}
 	return (
-		<form onSubmit={handleSubmit} ref={formRef}>
+		<form
+			onSubmit={handleSubmit}
+			ref={formRef}
+		>
 			<label htmlFor='verificationCode'>
 				<input
 					type='text'
@@ -58,7 +63,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 					required
 					autoComplete='one-time-code'
 					id='verificationCode'
-					value={code}
+					value={otp}
 					onChange={(e) => setCode(e.target.value)}
 				/>
 				<span>{errMsg}</span>
@@ -68,7 +73,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 				name='phoneNumber'
 				value={phoneNumber}
 			/>
-			<span>{code}</span>
+			<span>{otp}</span>
 			<button>Verify</button>
 		</form>
 	);
