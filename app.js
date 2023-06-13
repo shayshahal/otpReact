@@ -10,13 +10,15 @@ const authToken = process.env.TWILIO_AUTH_TOKEN;
 const serviceSid = process.env.TWILIO_SERVICE_SID;
 const port = process.env.PORT || 5000;
 const client = new Twilio(accountSid, authToken);
+const path = require('path');
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
-app.use(express.static('/client/dist'));
+app.use(express.static(path.join(__dirname, '/client/dist')));
+app.use(express.static(path.join(__dirname, '/client/dist/assets')));
 
 app.use((req, res, next) => {
 	req.body.phoneNumber = '+972' + req.body.phoneNumber;
