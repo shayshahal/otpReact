@@ -3,28 +3,26 @@ import { useEffect, useRef, useState } from 'react';
 function CodeForm({ onVerify, phoneNumber }) {
 	const [otp, setOtp] = useState('asd');
 	const formRef = useRef(null);
-	useEffect(() => {
-		if ('OTPCredential' in window) {
-			const ac = new AbortController();
-			navigator.credentials
-				.get({
-					otp: { transport: ['sms'] },
-					signal: ac.signal,
-				})
-				.then((otp) => {
-					setOtp(otp);
-					formRef.current.dispatchEvent(
-						new Event('submit', { cancelable: true, bubbles: true })
-					);
-					ac.abort();
-				})
-				.catch((err) => {
-					console.log(err);
-					setOtp('aspkdjakplosdjmelasdlkasmd');
-					ac.abort();
-				});
-		}
-	}, []);
+	if ('OTPCredential' in window) {
+		const ac = new AbortController();
+		navigator.credentials
+			.get({
+				otp: { transport: ['sms'] },
+				signal: ac.signal,
+			})
+			.then((otp) => {
+				setOtp(otp);
+				formRef.current.dispatchEvent(
+					new Event('submit', { cancelable: true, bubbles: true })
+				);
+				ac.abort();
+			})
+			.catch((err) => {
+				console.log(err);
+				setOtp('aspkdjakplosdjmelasdlkasmd');
+				ac.abort();
+			});
+	}
 	const [errMsg, setErrMsg] = useState('');
 	async function handleSubmit(e) {
 		e.preventDefault();
