@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 
 function CodeForm({ onVerify, phoneNumber }) {
 	const [code, setCode] = useState('');
-	const formRef = useRef(null);
-	const func = () => {
+	const formRef = useRef(null)
+	useEffect(() => {
 		if ('OTPCredential' in window) {
 			const ac = new AbortController();
 			setTimeout(() => {
@@ -18,14 +18,14 @@ function CodeForm({ onVerify, phoneNumber }) {
 				.then((otp) => {
 					setCode(otp.code);
 					ac.abort();
-					formRef.current.dispatchEvent(new Event('submit'));
+					formRef.current.dispatchEvent(new Event("submit"));
 				})
 				.catch((err) => {
 					console.log(err);
 					ac.abort();
 				});
 		}
-	};
+	}, []);
 	const [errMsg, setErrMsg] = useState('');
 	async function handleSubmit(e) {
 		e.preventDefault();
@@ -49,10 +49,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 		}
 	}
 	return (
-		<form
-			onSubmit={handleSubmit}
-			ref={formRef}
-		>
+		<form onSubmit={handleSubmit} ref={formRef}>
 			<label htmlFor='verificationCode'>
 				<input
 					type='text'
@@ -71,7 +68,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 				name='phoneNumber'
 				value={phoneNumber}
 			/>
-			<button onClick={func}>CLICK</button>
+			<span>{code}</span>
 			<button>Verify</button>
 		</form>
 	);
