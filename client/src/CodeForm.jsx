@@ -9,7 +9,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 		if ('OTPCredential' in window) {
 			window.addEventListener('DOMContentLoaded', () => {
 				setTemp('JHKSAHMJFNALKSJDMALSDKASD');
-				setAc(new AbortController());
+				const ac = new AbortController();
 				setTimeout(() => {
 					// abort after 2 minutes
 					ac.abort();
