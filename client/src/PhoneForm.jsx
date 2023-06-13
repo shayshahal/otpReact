@@ -8,7 +8,7 @@ function PhoneForm({ onSend }) {
 		const payload = Object.fromEntries(form);
 		try {
 			const response = await fetch(
-				'https://localhost:3000/send-verification-code',
+				document.URL + '/send-verification-code',
 				{
 					method: 'POST',
 					headers: {
