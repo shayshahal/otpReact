@@ -29,7 +29,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 		const payload = Object.fromEntries(form);
 
 		try {
-			const response = await fetch(document.URL + '/verify-code', {
+			const response = await fetch(document.URL + 'verify-code', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
