@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 function CodeForm({ onVerify, phoneNumber }) {
 	const [otp, setOtp] = useState('asd');
 	const [errMsg, setErrMsg] = useState('');
-	
+
 	useEffect(() =>{
 		if ('OTPCredential' in window) {
 			const ac = new AbortController();
@@ -22,7 +22,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 					ac.abort();
 				});
 		}
-	})
+	}, [])
 	async function handleSubmit(e) {
 		e.preventDefault();
 		const form = new FormData(e.currentTarget);
