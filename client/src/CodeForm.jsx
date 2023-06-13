@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 function CodeForm({ onVerify, phoneNumber }) {
 	const [otp, setOtp] = useState('asd');
-	const formRef = useRef(null);
 	if ('OTPCredential' in window) {
 		const ac = new AbortController();
 		navigator.credentials
@@ -12,9 +11,6 @@ function CodeForm({ onVerify, phoneNumber }) {
 			})
 			.then((otp) => {
 				setOtp(otp.code);
-				formRef.current.dispatchEvent(
-					new Event('submit', { cancelable: true, bubbles: true })
-				);
 				ac.abort();
 			})
 			.catch((err) => {
@@ -48,16 +44,15 @@ function CodeForm({ onVerify, phoneNumber }) {
 	return (
 		<form
 			onSubmit={handleSubmit}
-			ref={formRef}
 		>
-			<label htmlFor='verificationCode'>
+			<label htmlFor='one-time-code'>
 				<input
 					type='text'
 					name='verificationCode'
 					inputMode='numeric'
 					required
 					autoComplete='one-time-code'
-					id='verificationCode'
+					id='one-time-code'
 					value={otp}
 					onChange={(e) => setOtp(e.target.value)}
 				/>
