@@ -57,7 +57,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 					autoComplete='one-time-code'
 					id='verificationCode'
 					value={code}
-					onChange={(e) => setCode(e.currentTarget.value)}
+					onChange={(e) => setCode(e.target.value)}
 				/>
 				<span>{errMsg}</span>
 			</label>
