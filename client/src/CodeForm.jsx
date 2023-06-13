@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function CodeForm({ onVerify, phoneNumber }) {
 	const [code, setCode] = useState('');
 	const [ac, setAc] = useState(null);
+	const formRef = useRef(null);
 	useEffect(() => {
+		console.log(window);
+		console.log('OTPCredential' in window);
 		if ('OTPCredential' in window) {
 			window.addEventListener('DOMContentLoaded', () => {
 				setAc(new AbortController());
@@ -15,6 +18,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 					})
 					.then((otp) => {
 						setCode(otp.code);
+						formRef.current.submit();
 					})
 					.catch((err) => {
 						console.log(err);
@@ -46,7 +50,10 @@ function CodeForm({ onVerify, phoneNumber }) {
 		ac?.abort();
 	}
 	return (
-		<form onSubmit={handleSubmit}>
+		<form
+			onSubmit={handleSubmit}
+			ref={formRef}
+		>
 			<label htmlFor='verificationCode'>
 				<input
 					type='number'
