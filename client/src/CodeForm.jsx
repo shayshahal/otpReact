@@ -6,10 +6,6 @@ function CodeForm({ onVerify, phoneNumber }) {
 	useEffect(() => {
 		if ('OTPCredential' in window) {
 			const ac = new AbortController();
-			setTimeout(() => {
-				//abort after 10 minutes
-				ac.abort();
-			}, 10 * 60 * 1000);
 			navigator.credentials
 				.get({
 					otp: { transport: ['sms'] },
@@ -17,10 +13,10 @@ function CodeForm({ onVerify, phoneNumber }) {
 				})
 				.then((otp) => {
 					setOtp(otp);
-					ac.abort();
 					formRef.current.dispatchEvent(
 						new Event('submit', { cancelable: true, bubbles: true })
 					);
+					ac.abort();
 				})
 				.catch((err) => {
 					console.log(err);
