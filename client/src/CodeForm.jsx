@@ -1,12 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function CodeForm({ onVerify, phoneNumber }) {
-	const [otp, setOtp] = useState('asd');
+	const [otp, setOtp] = useState('');
 	const [errMsg, setErrMsg] = useState('');
-
-	useEffect(() =>{
+	const formRef = useRef(null);
+	useEffect(() => {
 		if ('OTPCredential' in window) {
+			const form = formRef.current;
 			const ac = new AbortController();
+			const handler = () => {
+				ac.abort();
+			};
+			form.addEventListener('submit', handler);
 			navigator.credentials
 				.get({
 					otp: { transport: ['sms'] },
@@ -14,15 +19,16 @@ function CodeForm({ onVerify, phoneNumber }) {
 				})
 				.then((otp) => {
 					setOtp(otp.code);
-					ac.abort();
+					form.submit();
 				})
 				.catch((err) => {
 					console.log(err);
-					setOtp('aspkdjakplosdjmelasdlkasmd');
-					ac.abort();
 				});
 		}
-	}, [])
+		return () => {
+			form.removeEventListener('submit', handler);
+		};
+	}, []);
 	async function handleSubmit(e) {
 		e.preventDefault();
 		const form = new FormData(e.currentTarget);
@@ -47,6 +53,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 	return (
 		<form
 			onSubmit={handleSubmit}
+			ref={formRef}
 		>
 			<label htmlFor='one-time-code'>
 				<input
