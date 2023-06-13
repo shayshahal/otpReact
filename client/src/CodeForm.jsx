@@ -43,7 +43,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 			else setErrMsg(String(error));
 			console.error(error);
 		}
-		ac.abort();
+		ac?.abort();
 	}
 	return (
 		<form onSubmit={handleSubmit}>
