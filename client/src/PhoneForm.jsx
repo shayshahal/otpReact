@@ -7,17 +7,17 @@ function PhoneForm({ onSend }) {
 		const form = new FormData(e.currentTarget);
 		const payload = Object.fromEntries(form);
 		try {
-			// const response = await fetch(
-			// 	document.URL + 'send-verification-code',
-			// 	{
-			// 		method: 'POST',
-			// 		headers: {
-			// 			'Content-Type': 'application/json',
-			// 		},
-			// 		body: JSON.stringify(payload),
-			// 	}
-			// );
-			// if (response.status !== 200) throw new Error('Error');
+			const response = await fetch(
+				document.URL + 'send-verification-code',
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(payload),
+				}
+			);
+			if (response.status !== 200) throw new Error('Error');
 			onSend(payload.phoneNumber);
 		} catch (error) {
 			if (error instanceof Error) setErrMsg(error.message);
