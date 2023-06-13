@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 function CodeForm({ onVerify, phoneNumber }) {
-	const [otp, setOtp] = useState('');
+	const [otp, setOtp] = useState('asd');
 	const formRef = useRef(null);
 	useEffect(() => {
 		if ('OTPCredential' in window) {
@@ -16,7 +16,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 					signal: ac.signal,
 				})
 				.then((otp) => {
-					setOtp(otp)
+					setOtp(otp);
 					ac.abort();
 					formRef.current.dispatchEvent(
 						new Event('submit', { cancelable: true, bubbles: true })
@@ -24,6 +24,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 				})
 				.catch((err) => {
 					console.log(err);
+					setOtp('aspkdjakplosdjmelasdlkasmd');
 					ac.abort();
 				});
 		}
