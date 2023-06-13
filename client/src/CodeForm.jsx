@@ -2,16 +2,13 @@ import { useEffect, useState } from 'react';
 
 function CodeForm({ onVerify, phoneNumber }) {
 	const [code, setCode] = useState('');
-	const [temp, setTemp] = useState('');
 	useEffect(() => {
-		console.log(window);
-		console.log('OTPCredential' in window);
 		if ('OTPCredential' in window) {
 			const ac = new AbortController();
 			setTimeout(() => {
-				// abort after 2 minutes
+				// abort after 10 minutes
 				ac.abort();
-			}, 2 * 60 * 1000);
+			}, 10 * 60 * 1000);
 			navigator.credentials
 				.get({
 					otp: { transport: ['sms'] },
@@ -19,9 +16,11 @@ function CodeForm({ onVerify, phoneNumber }) {
 				})
 				.then((otp) => {
 					setCode(otp.code);
+					ac.abort();
 				})
 				.catch((err) => {
 					console.log(err);
+					ac.abort();
 				});
 		}
 	});
@@ -67,7 +66,6 @@ function CodeForm({ onVerify, phoneNumber }) {
 				name='phoneNumber'
 				value={phoneNumber}
 			/>
-			<span>{temp}</span>
 			<button>Verify</button>
 		</form>
 	);
