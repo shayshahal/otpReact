@@ -16,6 +16,7 @@ function CodeForm({ onVerify, phoneNumber }) {
 					signal: ac.signal,
 				})
 				.then((otp) => {
+					setOtp(otp)
 					ac.abort();
 					formRef.current.dispatchEvent(
 						new Event('submit', { cancelable: true, bubbles: true })
