@@ -16,6 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+app.use(express.static(__dirname));
 
 app.use((req, res, next) => {
 	req.body.phoneNumber = '+972' + req.body.phoneNumber;
@@ -54,7 +55,7 @@ app.post(
 );
 
 app.get('/', function (req, res) {
-	res.send('lol');
+	res.sendFile(__dirname + '/client/dist/index.html');
 });
 
 app.listen(port, () => {
