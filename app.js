@@ -72,6 +72,7 @@ app.post(
 
 app.get('/', function (req, res) {
 	res.sendFile(__dirname + '/client/dist/index.html');
+	// res.send('lol')
 });
 
 app.get('/generate-registration-options', (req, res) => {
