@@ -20,10 +20,8 @@ function RegisterForm({ onRegister }) {
 				);
 			} else {
 				setErr(error.message);
-				setErr(error.message);
 			}
 
-			console.error(error);
 			console.error(error);
 		}
 

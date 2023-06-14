@@ -33,23 +33,17 @@ function LoginForm({ onLogin }) {
 
 			// Wait for the results of verification
 			const verificationJSON = await verificationResp.json();
-			// Wait for the results of verification
-			const verificationJSON = await verificationResp.json();
 
-				// Show UI appropriate for the `verified` status
-				if (verificationJSON && verificationJSON.verified) {
-					onLogin();
-				} else {
-					setErr(
-						`Oh no, something went wrong! Response: ${JSON.stringify(
-							verificationJSON
-						)}`
-					);
-				}
-		} catch (error) {
-			setErr(error.message);
-			console.error(error);
-		}
+			// Show UI appropriate for the `verified` status
+			if (verificationJSON && verificationJSON.verified) {
+				onLogin();
+			} else {
+				setErr(
+					`Oh no, something went wrong! Response: ${JSON.stringify(
+						verificationJSON
+					)}`
+				);
+			}
 		} catch (error) {
 			setErr(error.message);
 			console.error(error);
