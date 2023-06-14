@@ -11,17 +11,12 @@ const { generateRegistrationOptions, verifyRegistrationResponse } =
 	SimpleWebAuthnServer;
 
 dotenv.config();
-const {
-	TWILIO_ACCOUNT_SID,
-	TWILIO_AUTH_TOKEN,
-	TWILIO_SERVICE_SID,
-	RP_ID,
-	PORT,
-} = process.env;
+const { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_SERVICE_SID, RP_ID } =
+	process.env;
 
 const app = express();
 
-const port = PORT || 5000;
+const port = process.env.PORT || 5000;
 
 const client = new Twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
