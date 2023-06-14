@@ -8,7 +8,7 @@ function RegisterForm({ onRegister }) {
 		let attResp;
 		try {
 			const resp = await fetch(
-				document.URL + 'generate-registration-option'
+				document.URL + 'generate-registration-options'
 			);
 			// Pass the options to the authenticator and wait for a response
 			attResp = await startRegistration(await resp.json());
