@@ -15,6 +15,8 @@ function LoginForm({ onLogin }) {
 		} catch (error) {
 			setErr(error.message);
 			console.error(error);
+			setErr(error.message);
+			console.error(error);
 		}
 		try {
 			// POST the response to the endpoint that calls
@@ -31,17 +33,23 @@ function LoginForm({ onLogin }) {
 
 			// Wait for the results of verification
 			const verificationJSON = await verificationResp.json();
+			// Wait for the results of verification
+			const verificationJSON = await verificationResp.json();
 
-			// Show UI appropriate for the `verified` status
-			if (verificationJSON && verificationJSON.verified) {
-				onLogin();
-			} else {
-				setErr(
-					`Oh no, something went wrong! Response: ${JSON.stringify(
-						verificationJSON
-					)}`
-				);
-			}
+				// Show UI appropriate for the `verified` status
+				if (verificationJSON && verificationJSON.verified) {
+					onLogin();
+				} else {
+					setErr(
+						`Oh no, something went wrong! Response: ${JSON.stringify(
+							verificationJSON
+						)}`
+					);
+				}
+		} catch (error) {
+			setErr(error.message);
+			console.error(error);
+		}
 		} catch (error) {
 			setErr(error.message);
 			console.error(error);
