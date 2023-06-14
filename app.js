@@ -25,7 +25,7 @@ const port = PORT || 5000;
 
 const client = new Twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
-const origin = `https://${rpID}`;
+const expectedOrigin = `https://${RP_ID}`;
 let currentChallenge = undefined;
 const user = {
 	id: 'internalUserId',
