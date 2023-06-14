@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import './App.css';
-import Fingerprint from './Fingerprint';
 import Nav from './Nav';
+import FingerprintForm from './RegisterForm';
 import Sms from './Sms';
 function App() {
-	const [appState, setAppState] = useState('sms');
+	const [appState, setAppState] = useState('fingerprint');
 	return (
 		<>
 			<Nav setAppState={setAppState} />
-			{appState === 'sms' ? <Sms /> : <Fingerprint />}
+			{appState === 'sms' ? <Sms /> : <FingerprintForm />}
 		</>
 	);
 }
