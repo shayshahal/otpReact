@@ -5,9 +5,11 @@ function RegisterForm({ onRegister }) {
 	const [err, setErr] = useState('');
 	async function handleSubmit(e) {
 		e.preventDefault();
-		const resp = await fetch(document.URL + 'generate-registration-option');
 		let attResp;
 		try {
+			const resp = await fetch(
+				'http://localhost:5000/generate-registration-option'
+			);
 			// Pass the options to the authenticator and wait for a response
 			attResp = await startRegistration(await resp.json());
 		} catch (error) {
@@ -17,33 +19,36 @@ function RegisterForm({ onRegister }) {
 					'Error: Authenticator was probably already registered by user'
 				);
 			} else {
-				setErr(error);
+				setErr(error.message);
 			}
 
-			throw error;
+			console.error(error);
 		}
 
-		const verificationResp = await fetch(
-			document.URL + 'verify-registration',
-			{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(attResp),
-			}
-		);
-
-		const verificationJSON = await verificationResp.json();
-
-		if (verificationJSON && verificationJSON.verified) {
-			onRegister();
-		} else {
-			setErr(
-				`Oh no, something went wrong! Response: ${JSON.stringify(
-					verificationJSON
-				)}`
+		try {
+			const verificationResp = await fetch(
+				'http://localhost:5000/verify-registration',
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(attResp),
+				}
 			);
+			const verificationJSON = await verificationResp.json();
+			if (verificationJSON && verificationJSON.verified) {
+				onRegister();
+			} else {
+				setErr(
+					`Oh no, something went wrong! Response: ${JSON.stringify(
+						verificationJSON
+					)}`
+				);
+			}
+		} catch (error) {
+			setErr(error.message);
+			console.error(error);
 		}
 	}
 	return (
