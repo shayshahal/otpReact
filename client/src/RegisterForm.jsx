@@ -8,26 +8,12 @@ function RegisterForm({ onRegister }) {
 		let attResp;
 		try {
 			const resp = await fetch(
-				document.URL + 'generate-registration-options'
+			'/generate-registration-options'
 			);
 			// Pass the options to the authenticator and wait for a response
 			attResp = await startRegistration(await resp.json());
-		} catch (error) {
-			// Some basic error handling
-			if (error.name === 'InvalidStateError') {
-				setErr(
-					'Error: Authenticator was probably already registered by user'
-				);
-			} else {
-				setErr(error.message);
-			}
-
-			console.error(error);
-		}
-
-		try {
 			const verificationResp = await fetch(
-				document.URL + 'verify-registration',
+				'/verify-registration',
 				{
 					method: 'POST',
 					headers: {
@@ -47,7 +33,15 @@ function RegisterForm({ onRegister }) {
 				);
 			}
 		} catch (error) {
-			setErr(error.message);
+			// Some basic error handling
+			if (error.name === 'InvalidStateError') {
+				setErr(
+					'Error: Authenticator was probably already registered by user'
+				);
+			} else {
+				setErr(error.message);
+			}
+
 			console.error(error);
 		}
 	}

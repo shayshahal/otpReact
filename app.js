@@ -5,7 +5,9 @@ const asyncHandler = require('express-async-handler');
 const Twilio = require('twilio');
 const base64url = require('base64url');
 const path = require('path');
+const fs = require('fs');
 const SimpleWebAuthnServer = require('@simplewebauthn/server');
+const https = require('https');
 
 const { generateRegistrationOptions, verifyRegistrationResponse } =
 	SimpleWebAuthnServer;
@@ -82,7 +84,6 @@ app.get('/generate-registration-options', (req, res) => {
 		userID: user.id,
 		userName: username.username,
 		timeout: 60000,
-		attestationType: 'none',
 		attestationType: 'none',
 		/**
 		 * Passing in a user's list of already-registered authenticator IDs here prevents users from
@@ -232,6 +233,14 @@ app.post('/verify-authentication', async (req, res) => {
 	res.send({ verified });
 });
 
-app.listen(port, () => {
-	console.log('Listening on port ' + port);
-});
+https
+	.createServer(
+		{
+			key: fs.readFileSync('key.pem'),
+			cert: fs.readFileSync('cert.pem'),
+		},
+		app
+	)
+	.listen(port, () => {
+		console.log('Listening on port ' + port);
+	});

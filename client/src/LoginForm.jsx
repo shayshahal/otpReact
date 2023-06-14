@@ -7,29 +7,17 @@ function LoginForm({ onLogin }) {
 		e.preventDefault();
 		let asseResp;
 		try {
-			const resp = await fetch(
-				document.URL + 'generate-authentication-options'
-			);
+			const resp = await fetch('/generate-authentication-options');
 
 			asseResp = await startAuthentication(await resp.json(), true);
-		} catch (error) {
-			setErr(error.message);
-			console.error(error);
-			setErr(error.message);
-			console.error(error);
-		}
-		try {
 			// POST the response to the endpoint that calls
-			const verificationResp = await fetch(
-				document.URL + 'verify-authentication',
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify(asseResp),
-				}
-			);
+			const verificationResp = await fetch('/verify-authentication', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(asseResp),
+			});
 
 			// Wait for the results of verification
 			const verificationJSON = await verificationResp.json();
