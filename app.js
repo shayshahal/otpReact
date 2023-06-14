@@ -33,20 +33,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use(express.static(path.join(__dirname, '/client/dist')));
 app.use(express.static(path.join(__dirname, '/client/dist/assets')));
-app.use(
-	session({
-		secret: 'secret123',
-		saveUninitialized: true,
-		resave: false,
-		cookie: {
-			maxAge: 86400000,
-			httpOnly: true, // Ensure to not expose session cookies to clientside scripts
-		},
-		store: new MemoryStore({
-			checkPeriod: 86_400_000, // prune expired entries every 24h
-		}),
-	})
-);
+
 app.use((req, res, next) => {
 	req.body.phoneNumber = '+972' + req.body.phoneNumber;
 	next();
